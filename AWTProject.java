@@ -1,13 +1,84 @@
+package AWT;
 import java.util.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-public class Project implements ActionListener{
-	public static void main(String[] args) {
+import java.io.*;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+class Employee{
+	private String EmpNum,Name,Job,Depart;
+	Double sal;
+	public Employee(String empNum, String name, String job, String depart, Double sal) {
+		EmpNum = empNum;
+		Name = name;
+		Job = job;
+		Depart = depart;
+		this.sal = sal;
+	}
+	public String getEmpNum() {
+		return EmpNum;
+	}
+	public void setEmpNum(String empNum) {
+		EmpNum = empNum;
+	}
+	public String getName() {
+		return Name;
+	}
+	public void setName(String name) {
+		Name = name;
+	}
+	public String getJob() {
+		return Job;
+	}
+	public void setJob(String job) {
+		Job = job;
+	}
+	public String getDepart() {
+		return Depart;
+	}
+	public void setDepart(String depart) {
+		Depart = depart;
+	}
+	public Double getSal() {
+		return sal;
+	}
+	public void setSal(Double sal) {
+		this.sal = sal;
+	}
+}
+public class Project{
+	public static void main(String[] args) throws Exception {
 		Frame F=new Frame();
 		Color skyBlue = new Color(135, 206, 235);
+		File FI=new File("C:\\Users\\madhu.p\\eclipse-workspace\\Collections\\src\\AWT\\Employees.txt");
+		ArrayList<Employee> AL=new ArrayList<>();
+		Reader R=new FileReader(FI);
+		BufferedReader BR=new BufferedReader(R); 
+		String t;
+		while((t=BR.readLine())!=null) {
+			StringTokenizer ST=new StringTokenizer(t,",");
+			Employee T=new Employee("","","","",0.0);
+			int i=0;
+			while(ST.hasMoreTokens()) {
+				String s=ST.nextToken();
+				if(i==0)
+				T.setEmpNum(s);
+				else if(i==1)
+				T.setEmpNum(s);
+				else if(i==2)
+				T.setEmpNum(s);
+				else if(i==3)
+				T.setEmpNum(s);
+				else
+				T.setEmpNum(s);
+				i++;	
+			}
+			AL.add(T);
+		}
+		System.out.println(AL.toString());
         F.setBackground(skyBlue);
 		F.setTitle("EmployeesBlock");
 		F.setSize(700,700);
@@ -95,8 +166,10 @@ public class Project implements ActionListener{
 		ch1.add("Edit");
 		ch1.add("Add");
 		ch1.add("Delete");
-		
-		// Add Button
+		t2.setText("");
+		t3.setText("");
+		t4.setText("");
+		t5.setText("");
 		b5.addActionListener(new ActionListener(){
 			@Override
 			public void actionPerformed(ActionEvent e) {
