@@ -1,16 +1,12 @@
-package AWT;
-
+package AWTProject;
 import java.util.*;
-
 import javax.swing.JOptionPane;
-
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.*;
-
 class Change {
 	public void Run(ArrayList<Employee> AL, Writer FL) throws IOException {
 		int i = 0;
@@ -23,10 +19,8 @@ class Change {
 		}
 	}
 }
-
 class Employee {
 	private String EmpNum, Name, Job, Depart, sal;
-
 	public Employee(String name, String empNum, String job, String sal, String depart) {
 		EmpNum = empNum;
 		Name = name;
@@ -34,64 +28,33 @@ class Employee {
 		Depart = depart;
 		this.sal = sal;
 	}
-
-	public String getDepart() {
-		return Depart;
-	}
-
-	public String getEmpNum() {
-		return EmpNum;
-	}
-
-	public String getJob() {
-		return Job;
-	}
-
-	public String getName() {
-		return Name;
-	}
-
-	public String getSal() {
-		return sal;
-	}
-
-	public void setDepart(String depart) {
-		Depart = depart;
-	}
-
-	public void setEmpNum(String empNum) {
-		EmpNum = empNum;
-	}
-
-	public void setJob(String job) {
-		Job = job;
-	}
-
-	public void setName(String name) {
-		Name = name;
-	}
-
-	public void setSal(String sal) {
-		this.sal = sal;
+	public String getDepart() {return Depart;}
+	public String getEmpNum() {return EmpNum;}
+	public String getJob() {return Job;}
+	public String getName() {return Name;}
+	public String getSal() {return sal;}
+	public void setDepart(String depart) {Depart = depart;}
+	public void setEmpNum(String empNum) {EmpNum = empNum;}
+	public void setJob(String job) {Job = job;}
+	public void setName(String name) {Name = name;}
+	public void setSal(String sal) {this.sal = sal;}
+	public void Run(ArrayList<Employee> AL, Writer FL) throws IOException {
+		int i = 0;
+		while (i < AL.size()) {
+			Employee e = AL.get(i);
+			String s;
+			s = e.getName() + "," + e.getEmpNum() + "," + e.getJob() + "," + e.getDepart() + "," + e.getSal() + "\n";
+			FL.write(s);
+			i++;
+		}
 	}
 }
-
 class Position {
 	private int pos;
-
-	public Position(int a) {
-		pos = a;
-	}
-
-	public int getPos() {
-		return pos;
-	}
-
-	public void setPos(int pos) {
-		this.pos = pos;
-	}
+	public Position(int a) {pos = a;}
+	public int getPos() {return pos;}
+	public void setPos(int pos) {this.pos = pos;}
 }
-
 class Searching {
 	public Employee search(ArrayList<Employee> AL, int p, String tar) {
 		String s = "", q = "";
@@ -117,23 +80,12 @@ class Searching {
 		return null;
 	}
 }
-
 class AddEdit {
 	String AE;
-
-	public AddEdit(String aE) {
-		AE = aE;
-	}
-
-	public String getAE() {
-		return AE;
-	}
-
-	public void setAE(String aE) {
-		AE = aE;
-	}
+	public AddEdit(String aE) {AE = aE;}
+	public String getAE() {return AE;}
+	public void setAE(String aE) {AE = aE;}
 }
-
 public class Project {
 	public static void main(String[] args) throws Exception {
 		Position p = new Position(0);
@@ -145,7 +97,6 @@ public class Project {
 		File FI = new File("C:\\Users\\pothana madhu\\eclipse-workspace\\Java\\src\\Employees.txt");
 		ArrayList<Employee> AL = new ArrayList<>();
 		Reader R = new FileReader(FI);
-		Writer W = new FileWriter("C:\\Users\\pothana madhu\\eclipse-workspace\\Java\\src\\Output.txt");
 		BufferedReader BR = new BufferedReader(R);
 		String t;
 		while ((t = BR.readLine()) != null) {
@@ -170,7 +121,6 @@ public class Project {
 			}
 			AL.add(T);
 		}
-
 		F.setBackground(skyBlue);
 		F.setTitle("EmployeesBlock");
 		F.setSize(700, 700);
@@ -260,9 +210,8 @@ public class Project {
 		}
 		// First Button
 		b1.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
-				if (p.getPos() != -1) {
+				if (p.getPos() != -1 || AL.size()!=0) {
 					t1.setText(AL.get(0).getName());
 					t2.setText(AL.get(0).getEmpNum());
 					t3.setText(AL.get(0).getJob());
@@ -276,8 +225,11 @@ public class Project {
 
 		// Next Button
 		b2.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (0 == AL.size()) {
+					JOptionPane.showMessageDialog(F, "No Employees.");
+					return;
+				}
 				int l = p.getPos() + 1;
 				if (l == AL.size()) {
 					JOptionPane.showMessageDialog(F, "You Reached to end.");
@@ -291,11 +243,13 @@ public class Project {
 				}
 			}
 		});
-
 		// prev Button
 		b3.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (0 == AL.size()) {
+					JOptionPane.showMessageDialog(F, "No Employees.");
+					return;
+				}
 				int l = p.getPos() - 1;
 				if (l == -1) {
 					JOptionPane.showMessageDialog(F, "No Previous Record,You are at first Record");
@@ -309,11 +263,13 @@ public class Project {
 				}
 			}
 		});
-
 		// Last Button
 		b4.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				if (0 == AL.size()) {
+					JOptionPane.showMessageDialog(F, "No Employees.");
+					return;
+				}
 				int l = AL.size() - 1;
 				t1.setText(AL.get(l).getName());
 				t2.setText(AL.get(l).getEmpNum());
@@ -323,10 +279,8 @@ public class Project {
 				p.setPos(l);
 			}
 		});
-
 		// Add Button
 		b5.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!ch1.getItem(ch1.getSelectedIndex()).equals("Add"))
 				{
@@ -341,10 +295,8 @@ public class Project {
 				AE.setAE("Add");
 			}
 		});
-
 		// Edit Button
 		b6.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(!ch1.getItem(ch1.getSelectedIndex()).equals("Edit"))
 				{
@@ -361,11 +313,12 @@ public class Project {
 
 			}
 		});
-
 		// Delete Button
 		b7.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
+				try {
+				Writer W = new FileWriter(FI);
+				BufferedWriter WR=new BufferedWriter(W);
 				if(!ch1.getItem(ch1.getSelectedIndex()).equals("Delete"))
 				{
 					JOptionPane.showMessageDialog(F, "You are not in Delete Mode");	
@@ -376,13 +329,6 @@ public class Project {
 					JOptionPane.showMessageDialog(F, AL.get(l).getEmpNum() + " is Deleted");
 					p.setPos(0);
 					AL.remove(l);
-					try {
-						Change.Run(AL, W);
-						W.flush();
-					} catch (IOException e1) {
-						// TODO Auto-generated catch block
-						e1.printStackTrace();
-					}
 					if (l == 0) {
 						l = 1;
 					}
@@ -405,15 +351,21 @@ public class Project {
 					t5.setText("");
 					p.setPos(-1);
 				}
+				Change.Run(AL, W);
+				W.flush();
+				p.setPos(AL.size()-1);			}
+			catch(IOException e1) {
+					e1.printStackTrace();
+			}
 			}
 
 		});
-
 		// Save button
 		b8.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
+					Writer W = new FileWriter(FI);
+					BufferedWriter WR=new BufferedWriter(W);
 					if (t1.getText().length() != 0 && t2.getText().length() != 0 && t3.getText().length() != 0
 							&& t4.getText().length() != 0 && t5.getText().length() != 0) {
 						if (AE.getAE().equals("Edit")) {
@@ -440,20 +392,16 @@ public class Project {
 
 					} else {
 						JOptionPane.showMessageDialog(F, "Enter All The Fileds");
-						System.out.println("Enter All The Fileds");
 					}
 					AE.setAE("Normal");
 				} catch (IOException e1) {
-					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
 
 			}
 		});
-
 		// Search Button
 		b9.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				int f = 0;
 				String s1 = t1.getText();
@@ -475,7 +423,6 @@ public class Project {
 				} else {
 					f = 1;
 					JOptionPane.showMessageDialog(F, "Enter Atleast One Field");
-					System.out.println("Enter Field");
 					return;
 				}
 				if (f == 0) {
@@ -487,15 +434,12 @@ public class Project {
 						t5.setText(res.getDepart());
 					} else {
 						JOptionPane.showMessageDialog(F, "There is no file like that");
-						System.out.println("There is no file like that");
 					}
 				}
 			}
 		});
-
 		// Clear Button
 		b10.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				t1.setText("");
 				t2.setText("");
@@ -506,13 +450,9 @@ public class Project {
 		});
 		//Exit Button
 		b11.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				F.dispose();
-
 			}
 		});
-		
-
 	}
 }
