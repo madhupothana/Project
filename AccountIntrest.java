@@ -1,5 +1,4 @@
 package DateTime;
-
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
@@ -9,7 +8,6 @@ import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.StringTokenizer;
-
 public class AccountIntrest {
 	static float Rate = 4.5f;
 	public static double getMinBal(LocalDate First,double curbal,ArrayList<Transactions> T) {
@@ -51,7 +49,6 @@ public class AccountIntrest {
 		}
 		return cur;
 	}
-
 	public static double calIntrest(Account A, ArrayList<Transactions> T) {
 		double res=0;
 		LocalDate CD = LocalDate.now();
@@ -84,7 +81,6 @@ public class AccountIntrest {
 		}
 		return res;
 	}
-
 	public static void main(String[] args) throws Exception {
 		File AccF = new File("C:\\Users\\madhu.p\\eclipse-workspace\\Collections\\src\\DateTime\\AccountList.txt");
 		FileReader FR = new FileReader(AccF);
@@ -142,12 +138,10 @@ public class AccountIntrest {
 		}
 	}
 }
-
 class Account {
 	private String AccNum, AccType;
 	LocalDate OpenDate;
 	private double CurBal;
-
 	public Account(String accNum, String accType, String openDate, double curBal) {
 		super();
 		AccNum = accNum;
@@ -155,37 +149,17 @@ class Account {
 		OpenDate = LocalDate.parse(openDate);
 		CurBal = curBal;
 	}
-
 	public String getAccNum() {
 		return AccNum;
 	}
-
-	public void setAccNum(String accNum) {
-		AccNum = accNum;
-	}
-
 	public String getAccType() {
 		return AccType;
 	}
-
-	public void setAccType(String accType) {
-		AccType = accType;
-	}
-
 	public LocalDate getOpenDate() {
 		return OpenDate;
 	}
-
-	public void setOpenDate(String openDate) {
-		OpenDate = LocalDate.parse(openDate);
-	}
-
 	public double getCurBal() {
 		return CurBal;
-	}
-
-	public void setCurBal(double curBal) {
-		CurBal = curBal;
 	}
 }
 
@@ -206,41 +180,17 @@ class Transactions {
 	public String getTraID() {
 		return TraID;
 	}
-
-	public void setTraID(String traID) {
-		TraID = traID;
-	}
-
 	public String getAccNum() {
 		return AccNum;
 	}
-
-	public void setAccNum(String accNum) {
-		AccNum = accNum;
-	}
-
 	public LocalDate getTDate() {
 		return TDate;
 	}
-
-	public void setTDate(String tDate) {
-		TDate = LocalDate.parse(tDate);
-	}
-
 	public String getTType() {
 		return TType;
 	}
-
-	public void setTType(String tType) {
-		TType = tType;
-	}
-
 	public double gettAmt() {
 		return tAmt;
-	}
-
-	public void settAmt(double tAmt) {
-		this.tAmt = tAmt;
 	}
 }
 
