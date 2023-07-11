@@ -35,6 +35,7 @@ public class Bankintrest {
 		}
 
 		return bal;
+	}
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(
