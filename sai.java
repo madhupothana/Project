@@ -19,16 +19,22 @@ public class Bankintrest {
 		return tra;
 	}
 
-	 public static double getBalanceAsOndate(Acc a, LocalDate dt,ArrayList<Transaction> tra) {
-		double bal=0;
-		for(int i=0;i<tra.size();i++) {
-			if(dt<tra.get(i).gettransdate() && dt>a.getOpeningdate() )
+	public static double getBalanceAsOndate(Acc a, LocalDate dt, ArrayList<Transaction> tra) {
+		double bal = 0;
+		int i = tra.size() - 1;
+		while (i != -1) {
+			if (dt.compareTo(tra.get(i).getTransdate()) >= 0 && dt.compareTo(a.getOpeningdate()) >= 0) {
+				if (tra.get(i).getTranstype().equals('c')) {
+					bal += tra.get(i).getTamount();
+				} else {
+					bal -= tra.get(i).getTamount();
+				}
+				i--;
+
+			}
 		}
-		 
-		 
-		 return 0;
-		
-	 }
+
+		return bal;
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(
