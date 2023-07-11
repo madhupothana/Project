@@ -133,6 +133,8 @@ public class AccountIntrest {
 			}
 
 		}
+		FR.close();
+		BR.close();
 		// All Transactions are Listed into hashmap as (Account,TransactionObject)
 		for (Account A : AccList) {
 			double INTREST = AccountIntrest.calIntrest(A, TrabyAcc.get(A.getAccNum()));
