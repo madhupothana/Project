@@ -1,4 +1,6 @@
-package transproject;
+package AWTProject;
+
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -7,6 +9,112 @@ import java.time.Period;
 import java.util.ArrayList;
 
 
+import java.time.LocalDate;
+
+import java.time.LocalDate;
+class Transaction {
+	private int transno;
+	private int accno;
+	private LocalDate transdate;
+	private String transtype;
+	private double tamount;
+
+	public Transaction(String transno, String accno, String transdate, String transtype, String tamount) {
+		super();
+		this.transno = Integer.parseInt(transno);
+		this.accno = Integer.parseInt(accno);
+		this.transdate = LocalDate.parse(transdate);
+		this.transtype = transtype;
+		this.tamount = Double.parseDouble(tamount);
+	}
+
+	public int getTransno() {
+		return transno;
+	}
+
+	public void setTransno(int transno) {
+		this.transno = transno;
+	}
+
+	public int getAccno() {
+		return accno;
+	}
+
+	public void setAccno(int accno) {
+		this.accno = accno;
+	}
+
+	public LocalDate getTransdate() {
+		return transdate;
+	}
+
+	public void setTransdate(LocalDate transdate) {
+		this.transdate = transdate;
+	}
+
+	public String getTranstype() {
+		return transtype;
+	}
+
+	public void setTranstype(String transtype) {
+		this.transtype = transtype;
+	}
+
+	public double getTamount() {
+		return tamount;
+	}
+
+	public void setTamount(double tamount) {
+		this.tamount = tamount;
+	}
+
+}
+class Acc {
+	private int accno;
+	private String type;
+	private LocalDate openingdate;
+	private double openingbal;
+
+	public Acc(String accno, String type, String openingdate, String openingbal) {
+		this.accno = Integer.parseInt(accno);
+		this.type = type;
+		this.openingdate = LocalDate.parse(openingdate);
+		this.openingbal = Double.parseDouble(openingbal);
+	}
+
+	public int getAccno() {
+		return accno;
+	}
+
+	public void setAccno(int accno) {
+		this.accno = accno;
+	}
+
+	public String getType() {
+		return type;
+	}
+
+	public void setType(String type) {
+		this.type = type;
+	}
+
+	public LocalDate getOpeningdate() {
+		return openingdate;
+	}
+
+	public void setOpeningdate(String openingdate) {
+		this.openingdate = LocalDate.parse(openingdate);
+	}
+
+	public double getOpeningbal() {
+		return openingbal;
+	}
+
+	public void setOpeningbal(double openingbal) {
+		this.openingbal = openingbal;
+	}
+
+}
 public class Bankintrest {
 	public static ArrayList<Transaction> alltrans(ArrayList<Transaction> t, Acc c) {
 		ArrayList<Transaction> tra = new ArrayList<>();
@@ -22,9 +130,11 @@ public class Bankintrest {
 	public static double getBalanceAsOndate(Acc a, LocalDate dt, ArrayList<Transaction> tra) {
 		double bal = a.getOpeningbal();
 		int i = tra.size() - 1;
+		//System.out.println(i);
 		while (i != -1) {
-			if (dt.compareTo(tra.get(i).getTransdate()) >= 0) {
-				//System.out.println(dt.compareTo(tra.get(i).getTransdate())+" "+dt+" "+tra.get(i).getTransdate());
+			//System.out.println(dt.compareTo(tra.get(i).getTransdate())+" "+dt+" "+tra.get(i).getTransdate());
+			if (dt.compareTo(tra.get(i).getTransdate())<=0) {
+				
 				if (tra.get(i).getTranstype().equals("c")) {
 					bal -= tra.get(i).getTamount();
 				} else {
@@ -39,26 +149,21 @@ public class Bankintrest {
 
 		
 
-	public static double getMinbalance(Acc a, ArrayList<Transaction> tra, LocalDate dt,int j) {
-		double res=0.0;
-		
-		
-		
+	public static double getMinbalance(Acc a, ArrayList<Transaction> tra, LocalDate dt) {
 		double currbal= getBalanceAsOndate(a, LocalDate.of(dt.getYear(), dt.getMonthValue(), 10), tra);
 		double minbal=currbal;
 		for (int i = 0; i < tra.size(); i++) {
 			if (dt.getYear() == tra.get(i).getTransdate().getYear() && dt.getMonth() == tra.get(i).getTransdate().getMonth()) {
 
-				if (tra.get(i).getTransdate().getDayOfMonth() <= 10 && dt.getMonth().equals(tra.get(i).getTransdate().getMonth())) {
+				if (tra.get(i).getTransdate().getDayOfMonth() > 10 && dt.getMonth().equals(tra.get(i).getTransdate().getMonth())) {
 					
-					currbal = getBalanceAsOndate(a, LocalDate.of(dt.getYear(), dt.getMonthValue(), 10), tra);
 					//System.out.println("diffrence in months" + currbal + "   " + dt.getMonthValue());
 					if (tra.get(i).getTranstype().equals("c")) {
-						currbal = currbal - tra.get(i).getTamount();
-					} else {
 						currbal = currbal + tra.get(i).getTamount();
+					} else {
+						currbal = currbal - tra.get(i).getTamount();
 					}
-					if (minbal <currbal) {
+					if (minbal >currbal) {
 						minbal = currbal;
 					}
 					//dt=dt.minusMonths(1);
@@ -93,15 +198,15 @@ public class Bankintrest {
 			if (curentdate.getDayOfMonth() - i >= 10 && a.getOpeningdate().compareTo(curentdate) <= 0
 					&& monthsBetween1 < 6) {
 				
-				totmin = getMinbalance(a, tra, curentdate,i);
-				System.out.println(totmin+" "+curentdate);
+				totmin = getMinbalance(a, tra, curentdate);
+				//System.out.println(totmin+" "+curentdate);
 				// System.out.println(totmin + " " + a);
 				i++;
 				intrest += (totmin * 0.375) / 1200;
 
 			} else {
-				totmin = getMinbalance(a, tra, curentdate,i);
-				System.out.println(totmin+" "+curentdate);
+				totmin = getMinbalance(a, tra, curentdate);
+				//System.out.println(totmin+" "+curentdate);
 				intrest += (totmin * 0.375) / 1200;
 				i++;
 			}
@@ -116,7 +221,7 @@ public class Bankintrest {
 
 	public static void main(String[] args) throws Exception {
 		BufferedReader br = new BufferedReader(
-				new FileReader("C:\\Users\\saikiran.s\\eclipse-workspace\\Sample\\src\\account.txt"));
+				new FileReader("C:\\Users\\pothana madhu\\eclipse-workspace\\Java\\src\\Output.txt"));
 		ArrayList<Acc> a1 = new ArrayList<>();
 		String str = "";
 		while ((str = br.readLine()) != null) {
@@ -126,7 +231,7 @@ public class Bankintrest {
 		}
 
 		BufferedReader brr = new BufferedReader(
-				new FileReader("C:\\Users\\saikiran.s\\eclipse-workspace\\Sample\\src\\transactions.txt"));
+				new FileReader("C:\\Users\\pothana madhu\\eclipse-workspace\\Java\\src\\Employees.txt"));
 		ArrayList<Transaction> a2 = new ArrayList<>();
 		String strr = "";
 		while ((strr = brr.readLine()) != null) {
@@ -134,6 +239,8 @@ public class Bankintrest {
 			 //System.out.println(aa[2]);
 			a2.add(new Transaction(aa[0], aa[1], aa[2], aa[3], aa[4]));
 		}
+		//System.out.println(getBalanceAsOndate(a1.get(0), LocalDate.of(2023, 01, 01), alltrans(a2, a1.get(0))));
+		//System.out.println(getMinbalance(a1.get(0), alltrans(a2, a1.get(0)),LocalDate.of(2023, 06, 01)));
 		for (int i=0;i<a1.size();i++) {
 		double it = Bankintrest.getcalIntrest(a1.get(i), alltrans(a2, a1.get(i)));
 		System.out.println("intrest for the account:"+a1.get(i).getAccno()+"  "+it);
