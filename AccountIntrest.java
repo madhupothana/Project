@@ -1,28 +1,20 @@
 package DateTime;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.time.*;
 import java.time.temporal.ChronoUnit;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.StringTokenizer;
+import java.util.*;
 public class AccountIntrest {
 	static float Rate = 4.5f;
 	public static double getMinBal(LocalDate First,double curbal,ArrayList<Transactions> T) {
 		double res=curbal;
-		//System.out.println(curbal);
 		for(Transactions t:T) {
 			if(First.getYear()==t.getTDate().getYear() && First.getMonthValue()==t.getTDate().getMonthValue()) {
-				//System.out.println(First);
 				if(t.getTType().equals("DM")) {
 					curbal=curbal+t.gettAmt();
 				}
 				else {
 					curbal=curbal-t.gettAmt();
 				}
-				//System.out.println(curbal+" "+res);
 				if(res>curbal) {
 					res=curbal;
 				}
@@ -31,16 +23,14 @@ public class AccountIntrest {
 		return res;
 	}
 	public static double BalOnDate(LocalDate Date, ArrayList<Transactions> T, double cur) {
-		double res = cur;
-		
 		int i = T.size() - 1;
 		while (i!=-1) {
 			Transactions X = T.get(i);
 			if (X.getTDate().compareTo(Date)>-1) {
 				if (X.getTType().equals("DM")) {
-					cur = cur + X.gettAmt();
-				} else {
 					cur = cur - X.gettAmt();
+				} else {
+					cur = cur + X.gettAmt();
 				}
 			} else {
 				return cur;
@@ -52,11 +42,9 @@ public class AccountIntrest {
 	public static double calIntrest(Account A, ArrayList<Transactions> T) {
 		double res=0;
 		LocalDate CD = LocalDate.now();
-		LocalDate Date=null;
 		CD = CD.minusMonths(1);
 		LocalDate AccOpenD = A.getOpenDate();
 		int day = AccOpenD.getDayOfMonth();
-		//System.out.println(day);
 		if (day > 10) {
 			AccOpenD = AccOpenD.plusMonths(1);
 		}
@@ -66,16 +54,13 @@ public class AccountIntrest {
 			months = 6;
 		else
 			months = (int) monthsdiff;
-		//System.out.println(months);
 		int y=6;
-		//System.out.println(AccOpenD+" "+months+" "+CD+" "+monthsdiff);
 		while (months != -1 && y!=0) {
-			//System.out.println(months);
 			LocalDate onday = LocalDate.of(CD.minusMonths(months).getYear(), CD.minusMonths(months).getMonth(), 1);
 			double balFirst = AccountIntrest.BalOnDate(onday, T, A.getCurBal());
 			double minbal=AccountIntrest.getMinBal(onday,balFirst,T);
-			//System.out.println(minbal+" "+onday+" "+balFirst+" "+(minbal/1200)*(0.75));
-			res+=(minbal*0.75)/1200;
+			//System.out.println(minbal+" "+onday+" "+balFirst);
+			res+=(minbal*0.375)/1200;
 			months--;
 			y--;
 		}
@@ -100,11 +85,9 @@ public class AccountIntrest {
 				AccList.add(A);
 			}
 		}
-		// All SA Accounts are added into ArrayList
 		FR = null;
 		BR = null;
-		File TraF = new File(
-				"C:\\\\Users\\\\madhu.p\\\\eclipse-workspace\\\\Collections\\\\src\\\\DateTime\\\\TransactionList.txt");
+		File TraF = new File("C:\\\\Users\\\\madhu.p\\\\eclipse-workspace\\\\Collections\\\\src\\\\DateTime\\\\TransactionList.txt");
 		FR = new FileReader(TraF);
 		BR = new BufferedReader(FR);
 		HashMap<String, ArrayList<Transactions>> TrabyAcc = new HashMap<>();
@@ -129,12 +112,14 @@ public class AccountIntrest {
 			}
 
 		}
-		FR.close();
-		BR.close();
 		// All Transactions are Listed into hashmap as (Account,TransactionObject)
 		for (Account A : AccList) {
 			double INTREST = AccountIntrest.calIntrest(A, TrabyAcc.get(A.getAccNum()));
-			System.out.println("Intrest of "+A.getAccNum()+" : "+INTREST);
+			String s="Intrest of "+A.getAccNum()+" : "+INTREST+"\n";
+			FileWriter FW=new FileWriter("C:\\Users\\madhu.p\\eclipse-workspace\\Collections\\src\\DateTime\\Intrest.txt",true);
+			BufferedWriter BW=new BufferedWriter(FW);
+			BW.write(s);
+			BW.close();
 		}
 	}
 }
@@ -149,60 +134,23 @@ class Account {
 		OpenDate = LocalDate.parse(openDate);
 		CurBal = curBal;
 	}
-	public String getAccNum() {
-		return AccNum;
-	}
-	public String getAccType() {
-		return AccType;
-	}
-	public LocalDate getOpenDate() {
-		return OpenDate;
-	}
-	public double getCurBal() {
-		return CurBal;
-	}
+	public String getAccNum() {return AccNum;}
+	public LocalDate getOpenDate() {return OpenDate;}
+	public double getCurBal() {return CurBal;}
 }
-
 class Transactions {
 	private String TraID, AccNum, TType;
 	private LocalDate TDate;
 	private double tAmt;
-
 	public Transactions(String traID, String accNum, String tDate, String tType, double tAmt) {
-		super();
 		TraID = traID;
 		AccNum = accNum;
 		TDate = LocalDate.parse(tDate);
 		TType = tType;
 		this.tAmt = tAmt;
 	}
-
-	public String getTraID() {
-		return TraID;
-	}
-	public String getAccNum() {
-		return AccNum;
-	}
-	public LocalDate getTDate() {
-		return TDate;
-	}
-	public String getTType() {
-		return TType;
-	}
-	public double gettAmt() {
-		return tAmt;
-	}
+	public String getAccNum() {return AccNum;}
+	public LocalDate getTDate() {return TDate;}
+	public double gettAmt() {return tAmt;}
+	public String getTType() {return TType;}
 }
-
-/*AC101,SA,2023-04-09,40000
-AC102,SA,2023-02-11,40000
-
-T1,AC101,2023-05-01,DM,5000
-T2,AC101,2023-05-01,WM,7000
-T3,AC102,2023-02-15,WM,2000
-T4,AC101,2023-05-25,DM,9000
-T8,AC102,2023-03-15,DM,9000
-T5,AC102,2023-06-15,DM,2000
-T6,AC101,2023-06-24,DM,9000
-T7,AC101,2023-06-15,WM,2000
-*/
