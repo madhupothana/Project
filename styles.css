@@ -1,0 +1,106 @@
+/* Reset some default styles */
+h1:hover,button:hover{
+    color: crimson;
+}
+h2, h3, p{
+    margin: 0;
+    padding: 0;
+  }
+  
+  /* Basic styling for the page */
+  body {
+    font-family: Arial, sans-serif;
+    background-color: #aee3f1;
+    color: #333;
+    line-height: 1.6;
+  }
+  
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+  }
+  button{
+    color: #007bff;
+    height: 30px;
+    width: 60px;
+  }
+  
+  h1 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  
+  /* Common styling for product listing page and cart page */
+  .products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    padding-left: 225px;
+    
+  }
+  
+  .product-card,
+  .cart-item {
+    width: calc(20% - 20px);
+    background-color: #1bcbd8;
+    border: 1px solid #3e7bd8;
+    padding: 20px;
+    box-sizing:border-box;
+    text-align: center;
+  }
+  
+  .product-image img,
+  .cart-item-image img {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border: 1px solid #0f0808;
+   
+    margin-bottom: 10px;
+  }
+  .pages{
+    padding-left: 235px;
+  }
+  
+  .product-card h3,
+  .cart-item-details h3 {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
+  }
+  
+  .product-card p,
+  .cart-item-details p {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+  
+  .add-to-cart-btn,
+  #checkout-btn {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    font-size: 0.8rem;
+  }
+  
+  .add-to-cart-btn:hover,
+  #checkout-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  /* Responsive styles */
+  @media (max-width: 768px) {
+    .product-card,
+    .cart-item {
+      width: calc(50% - 20px);
+    }
+  
+    .product-image img,
+    .cart-item-image img {
+      width: 80px;
+      height: 80px;
+    }
+  }
+  

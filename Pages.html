@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Varshitha</title>
+    <style>
+        h1:hover {
+            color: rgb(201, 25, 25);
+        }
+        table {
+            padding-left: 120px;
+            border-collapse:unset;
+            width: 80%;
+        }
+        th, td {
+            border: 1px solid black;
+            padding: 8px;
+            text-align: left;
+        }
+        #pagination-buttons{
+            padding-top: 20px;
+            padding-left: 120px;
+            padding-right: 120px;
+        }
+    </style>
+</head>
+<body style="background-color: rgb(238, 192, 192);">
+    <center>
+    <h1>Paginated Table</h1>
+    <button onclick="Search()">Search </button>
+    <input type="text" id="hare">
+    </center>
+    <br></br>
+    <table id="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>profile</th>
+            </tr>
+        </thead>
+        <tbody id="table-body"></tbody>
+    </table>
+    
+    <div id="pagination-buttons"></div>
+
+    <script>
+        const itemsPerPage = 5; // Number of items to show per page
+        const data =[
+            {
+              "id": 1,
+              "name": "John Doe",
+              "email": "john@example.com"
+            },
+            {
+              "id": 2,
+              "name": "Jane Smith",
+              "email": "jane@example.com"
+            },
+            {
+              "id": 3,
+              "name": "Michael Johnson",
+              "email": "michael@example.com"
+            },
+            {
+              "id": 4,
+              "name": "Emily Brown",
+              "email": "emily@example.com"
+            },
+            {
+              "id": 5,
+              "name": "William Davis",
+              "email": "william@example.com"
+            },
+            {
+              "id": 6,
+              "name": "Sophia Wilson",
+              "email": "sophia@example.com"
+            },
+            {
+              "id": 7,
+              "name": "Oliver Taylor",
+              "email": "oliver@example.com"
+            },
+            {
+              "id": 8,
+              "name": "Emma White",
+              "email": "emma@example.com"
+            },
+            {
+              "id": 9,
+              "name": "Liam Johnson",
+              "email": "liam@example.com"
+            },
+            {
+              "id": 10,
+              "name": "Ava Martinez",
+              "email": "ava@example.com"
+            },
+            {
+              "id": 11,
+              "name": "Noah Clark",
+              "email": "noah@example.com"
+            },
+            {
+              "id": 12,
+              "name": "Sophia Rodriguez",
+              "email": "sophia@example.com"
+            }
+          ];
+        const tableBody = document.getElementById('table-body');
+        const paginationButtons = document.getElementById('pagination-buttons');
+
+        function displayTablePage(pageNumber,data) {
+            const startIndex = (pageNumber - 1) * itemsPerPage;
+            const endIndex = startIndex + itemsPerPage;
+            const pageData = data.slice(startIndex, endIndex);
+
+            tableBody.innerHTML = '';
+            pageData.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${item.id}</td>
+                    <td>${item.name}</td>
+                    <td>${item.email}</td>
+                    <td><img src='img1.jpg' width="50px"; height="50px";></td>
+                `;
+                tableBody.appendChild(row);
+            });
+        }
+        function Search(){
+            var d=document.getElementById('hare').value;
+            const json=[];
+            data.forEach(function(mad){
+                if(mad.name.indexOf(d)!=-1){
+                    json.push(mad);
+                }
+            }
+            );
+            console.log(json);
+            const totalPages = Math.ceil(json.length / itemsPerPage);
+            createPaginationButtons1(totalPages,json);
+            displayTablePage(1,json);
+
+        }
+
+        function createPaginationButtons(totalPages) {
+            paginationButtons.innerHTML = '';
+            const button = document.createElement('button');
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.addEventListener('click', () => displayTablePage(i,data));
+                paginationButtons.appendChild(button);
+            }
+        }
+        function createPaginationButtons1(totalPages,data) {
+            paginationButtons.innerHTML = '';
+            const button = document.createElement('button');
+            for (let i = 1; i <= totalPages; i++) {
+                const button = document.createElement('button');
+                button.textContent = i;
+                button.addEventListener('click', () => displayTablePage(i,data));
+                paginationButtons.appendChild(button);
+            }
+        }
+        const totalPages = Math.ceil(data.length / itemsPerPage);
+        createPaginationButtons(totalPages);
+        displayTablePage(1,data); // Initial display
+    </script>
+</body>
+</html>
